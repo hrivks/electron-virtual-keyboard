@@ -28,6 +28,13 @@ var lastHovered = null;
 var lastHoveredTO = null;
 
 // Electron polyfills
+function getLocalStorage(key) {
+  return localStorage.getItem(`virtualKeyboard_${key}`);
+}
+
+function setLocalStorage(key, value) {
+  localStorage.setItem(`virtualKeyboard_${key}`, value);
+}
 
 chrome.extension.sendRequest = function overriddenSendRequest(
   request,
@@ -38,49 +45,49 @@ chrome.extension.sendRequest = function overriddenSendRequest(
     return;
   }
   if (request.method == "getLocalStorage") {
-    sendResponse({ data: localStorage[request.key] });
+    sendResponse({ data: getLocalStorage(request.key) });
   } else if (request.method == "getSmallKeyboardCoords") {
     sendResponse({
-      smallKeyboard: localStorage["smallKeyboard"],
-      smallKeyboardTop: localStorage["smallKeyboardTop"],
-      smallKeyboardBottom: localStorage["smallKeyboardBottom"],
-      smallKeyboardRight: localStorage["smallKeyboardRight"],
-      smallKeyboardLeft: localStorage["smallKeyboardLeft"],
+      smallKeyboard: getLocalStorage("smallKeyboard"),
+      smallKeyboardTop: getLocalStorage("smallKeyboardTop"),
+      smallKeyboardBottom: getLocalStorage("smallKeyboardBottom"),
+      smallKeyboardRight: getLocalStorage("smallKeyboardRight"),
+      smallKeyboardLeft: getLocalStorage("smallKeyboardLeft"),
     });
   } else if (request.method == "loadKeyboardSettings") {
     sendResponse({
-      openedFirstTime: localStorage["openedFirstTime"],
-      capsLock: localStorage["capsLock"],
-      smallKeyboard: localStorage["smallKeyboard"],
-      touchEvents: localStorage["touchEvents"],
-      keyboardLayout1: localStorage["keyboardLayout1"],
-      urlButton: localStorage["urlButton"],
-      keyboardEnabled:
-        localStorage["keyboardEnabled"] == null ? "true" : undefined,
+      openedFirstTime: getLocalStorage("openedFirstTime"),
+      capsLock: getLocalStorage("capsLock"),
+      smallKeyboard: getLocalStorage("smallKeyboard"),
+      touchEvents: getLocalStorage("touchEvents"),
+      keyboardLayout1: getLocalStorage("keyboardLayout1"),
+      urlButton: getLocalStorage("urlButton"),
+      keyboardEnabled: getLocalStorage("keyboardEnabled"),
     });
   } else if (request.method == "initLoadKeyboardSettings") {
-    // Enable small keyboard by default.
-    if (localStorage["smallKeyboard"] == null) {
-      localStorage.setItem("smallKeyboard", "true");
-    }
-
     sendResponse({
-      hardwareAcceleration: localStorage["hardwareAcceleration"],
-      zoomLevel: localStorage["zoomLevel"],
-      autoTrigger: localStorage["autoTrigger"],
-      repeatLetters: localStorage["repeatLetters"],
-      intelligentScroll: localStorage["intelligentScroll"],
-      autoTriggerLinks: localStorage["autoTriggerLinks"],
-      autoTriggerAfter: localStorage["autoTriggerAfter"],
-      refreshTime: localStorage["refreshTime"],
+      hardwareAcceleration: getLocalStorage("hardwareAcceleration"),
+      zoomLevel: getLocalStorage("zoomLevel"),
+      autoTrigger: getLocalStorage("autoTrigger"),
+      repeatLetters: getLocalStorage("repeatLetters"),
+      intelligentScroll: getLocalStorage("intelligentScroll"),
+      autoTriggerLinks: getLocalStorage("autoTriggerLinks"),
+      autoTriggerAfter: getLocalStorage("autoTriggerAfter"),
+      refreshTime: getLocalStorage("refreshTime"),
     });
   } else if (request.method == "setLocalStorage") {
-    localStorage[request.key] = request.value;
+    setLocalStorage(request.key, request.value);
     sendResponse({ data: "ok", setted_key: request.key });
   } else {
     sendResponse({});
   }
 };
+
+// Enable small keyboard by default.
+if (setLocalStorage("openedFirstTime") == null) {
+  setLocalStorage("smallKeyboard", "true");
+  setLocalStorage("zoomLevel", "1.25");
+}
 
 function virtualKeyboardChromeExtension_generate_onchange() {
   if (virtualKeyboardChromeExtensionElemChanged == true) {

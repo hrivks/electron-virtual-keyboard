@@ -22,7 +22,6 @@
 	width: 750px;
 	left: 50%;
 	right: auto;
-	zoom: 1 !important;
 }
 #virtualKeyboardChromeExtension.modeS .virtualKeyboardChromeExtensionMainKeys, #virtualKeyboardChromeExtension.modeS #virtualKeyboardChromeExtensionNumberBarKbd1, #virtualKeyboardChromeExtension.modeS #virtualKeyboardChromeExtensionMainNumbers {
 	zoom: 0.7 !important;
