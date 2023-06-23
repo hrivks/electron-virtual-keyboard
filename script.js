@@ -84,7 +84,7 @@ chrome.extension.sendRequest = function overriddenSendRequest(
 };
 
 // Enable small keyboard by default.
-if (setLocalStorage("openedFirstTime") == null) {
+if (getLocalStorage("openedFirstTime") == null) {
   setLocalStorage("smallKeyboard", "true");
   setLocalStorage("zoomLevel", "1.25");
 }
