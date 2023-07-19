@@ -97,7 +97,7 @@ function virtualKeyboardChromeExtension_generate_onchange() {
         virtualKeyboardChromeExtensionClickedElem.fireEvent("onchange");
       else {
         var evt = document.createEvent("HTMLEvents");
-        evt.initEvent("change", false, true);
+        evt.initEvent("change", true, true);
         virtualKeyboardChromeExtensionClickedElem.dispatchEvent(evt);
       }
     }
@@ -528,6 +528,7 @@ function virtualKeyboardChromeExtension_click(key, skip) {
             virtualKeyboardChromeExtensionClickedElem.dispatchEvent(
               keyboardEvent
             );
+            virtualKeyboardChromeExtension_generate_onchange();
           }
         }
         break;
