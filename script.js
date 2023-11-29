@@ -422,6 +422,8 @@ function virtualKeyboardChromeExtension_click(key, skip) {
         keyboardEvent.initEvent("keyup", true, true);
         keyboardEvent.keyCode = keyboardEvent.which = 8; // Backspace
         virtualKeyboardChromeExtensionClickedElem.dispatchEvent(keyboardEvent);
+
+        virtualKeyboardChromeExtension_generate_onchange();
         break;
       default:
         if (virtualKeyboardChromeExtensionClickedElem != undefined) {
@@ -528,6 +530,7 @@ function virtualKeyboardChromeExtension_click(key, skip) {
             virtualKeyboardChromeExtensionClickedElem.dispatchEvent(
               keyboardEvent
             );
+            console.log("over here");
             virtualKeyboardChromeExtension_generate_onchange();
           }
         }

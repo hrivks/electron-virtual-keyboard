@@ -23,7 +23,7 @@
     "default_title": "Virtual Keyboard Toggle"
   },
   "permissions": ["tabs", "\u003Call_urls>"],
-  "version": "1.12.9",
+  "version": "1.12.10",
   "web_accessible_resources": [
     "keyboard.html",
     "keyboard_*.html",
